@@ -4,16 +4,18 @@ from jbi100_app.views.scatterplot import Scatterplot
 
 from dash import html
 import plotly.express as px
+import pandas as pd
 from dash.dependencies import Input, Output
 
 
 if __name__ == '__main__':
     # Create data
     df = px.data.iris()
+    df_airbnb = pd.read_csv('Airbnb_Open_Data.csv')
 
     # Instantiate custom views
     scatterplot1 = Scatterplot("Scatterplot 1", 'sepal_length', 'sepal_width', df)
-    scatterplot2 = Scatterplot("Scatterplot 2", 'petal_length', 'petal_width', df)
+    scatterplot2 = Scatterplot("Airbnb", 'long', 'lat', df_airbnb)
 
     app.layout = html.Div(
         id="app-container",
@@ -31,7 +33,7 @@ if __name__ == '__main__':
                 className="nine columns",
                 children=[
                     scatterplot1,
-                    scatterplot2
+                    scatterplot2, 
                 ],
             ),
         ],
