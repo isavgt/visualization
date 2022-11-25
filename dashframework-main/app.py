@@ -3,8 +3,7 @@ from jbi100_app.views.menu import make_menu_layout
 from jbi100_app.views.scatterplot import Scatterplot
 from jbi100_app.views.map import Map
 
-from dash import html
-import dash_core_components as dcc
+from dash import html, dcc
 import plotly.express as px
 import pandas as pd
 from dash.dependencies import Input, Output
@@ -23,14 +22,14 @@ if __name__ == '__main__':
             # Left column
             html.Div(
                 id="left-column",
-                className="one columns",
-                children=make_menu_layout()
+                className="three columns",
+                children=make_menu_layout(df_airbnb)
             ),
 
             # Right column
             html.Div(
                 id="right-column",
-                className="eleven columns",
+                className="nine columns",
                 children = dcc.Graph(figure=map.update())
             ),
         ],
