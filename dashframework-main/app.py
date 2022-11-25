@@ -23,7 +23,7 @@ if __name__ == '__main__':
             html.Div(
                 id="left-column",
                 className="three columns",
-                children=make_menu_layout(df_airbnb)
+                children=make_menu_layout()
             ),
 
             # Right column
