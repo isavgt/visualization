@@ -9,6 +9,7 @@ class Map(html.Div):
         self.df = df
         self.long = long
         self.lat = lat
+        #test
 
         # Equivalent to `html.Div([...])`
         super().__init__(
