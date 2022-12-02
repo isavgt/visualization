@@ -38,7 +38,7 @@ def read_data():
                 if df['neighbourhood'][x] == df['neighbourhood'][y]:
                     df['neighbourhood group'][x] = df['neighbourhood group'][y]
 
-    
+    df.to_csv('dashframework-main\cleaned_airbnb_data_test.csv', index = False)
     return df
 
 
@@ -47,4 +47,3 @@ read_data()
 
 
 
-#df = pd.read_csv(r'C:\Users\20203171\OneDrive - TU Eindhoven\2022-2023\Q2\Visualization\airbnb_open_data.csv')
