@@ -40,14 +40,7 @@ if __name__ == '__main__':
             'availability_365': np.int32
         }
     )
-    df_airbnb_old = pd.read_csv('Airbnb_Open_Data.csv')
-
-    df_airbnb.info()
-    print(type(df_airbnb_old.lat[1]))
-    print(type(df_airbnb.lat[1]))
-
-    print(df_airbnb.info())
-
+    
     # Instantiate custom views
     map = Map("Airbnb", "long", "lat", df_airbnb)
     plots = Plots("plots", df_airbnb)
@@ -67,10 +60,10 @@ if __name__ == '__main__':
                 id="right-column",
                 className="nine columns",
                 children = dcc.Graph(figure=map.update())
-            ),
-        ],
-    )
-    print()
+                ),
+            ],
+        )
+
     @app.callback(
         Output(plots.html_id, "figure"), [
         Input(map.html_id, 'selectedData')
