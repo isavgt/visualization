@@ -4,7 +4,7 @@ import plotly.express as px
 
 def read_data():
     # Read data
-    df = pd.read_csv('Airbnb_Open_Data.csv')
+    df = pd.read_csv('Airbnb_Open_Data.csv', low_memory=False)
     
     #drop rows with NaN values (only the columns which are essential to our goal)
     df.dropna(subset = ['lat','long','NAME','price'], inplace=True)
@@ -25,20 +25,20 @@ def read_data():
 
     #turn values of column price into integers to be able to work with them
     for x in range(len(df)):
-        df['price'][x]=int(df['price'][x].replace('$', '').replace(' ','').replace(',',''))
+        df.loc[x, 'price']=int(df.loc[x, 'price'].replace('$', '').replace(' ','').replace(',',''))
 
     #change faulty values into the right one
-    df[df['neighbourhood group']=="brookln"]="Brooklyn"
-    df[df['neighbourhood group']=="manhatan"]="Manhattan"
+    df.loc[df['neighbourhood group']=="brookln",'neighbourhood group']="Brooklyn"
+    df.loc[df['neighbourhood group']=="manhatan",'neighbourhood group']="Manhattan"
 
     #interpolate missing values for the neighbourhood by searching similar values
     for x in range(len(df)):
-        if pd.isnull(df['neighbourhood group'][x]):
+        if pd.isnull(df.loc[x,'neighbourhood group']):
             for y in range(len(df)):
-                if df['neighbourhood'][x] == df['neighbourhood'][y]:
-                    df['neighbourhood group'][x] = df['neighbourhood group'][y]
+                if df.loc[x,'neighbourhood']== df.loc[y,'neighbourhood']:
+                    df.loc[x,'neighbourhood group']= df.loc[y,'neighbourhood group']
 
-    
+    df.to_csv('cleaned_airbnb_data.csv', index = False)
     return df
 
 
@@ -47,4 +47,3 @@ read_data()
 
 
 
-#df = pd.read_csv(r'C:\Users\20203171\OneDrive - TU Eindhoven\2022-2023\Q2\Visualization\airbnb_open_data.csv')
