@@ -6,6 +6,7 @@ from jbi100_app.views.plots import Plots
 #from jbi100_app.data import read_data
 
 from dash import html, dcc
+import numpy as np
 import plotly.express as px
 import pandas as pd
 from dash.dependencies import Input, Output
@@ -13,7 +14,32 @@ from dash.dependencies import Input, Output
 if __name__ == '__main__':
     # Create data
     df = px.data.iris()
-    df_airbnb = pd.read_csv('dashframework-main\cleaned_airbnb_data_test.csv')
+    df_airbnb = df = pd.read_csv('cleaned_airbnb_data.csv')
+    for ind in df_airbnb.index:
+        if df_airbnb.loc[ind, 'price'] == 'Brooklyn':
+            print('Brook')
+
+
+    df_airbnb = df = pd.read_csv('cleaned_airbnb_data.csv',
+        dtype={
+            'id': np.int32,
+            'name': np.character,
+            'host_id': np.int32,
+            'host_name': np.character,
+            'neighboorhoud_group': np.character,
+            'neighboorhooud': np.character,
+            'latitude': np.float16,
+            'longitude': np.float16,
+            'room_type': np.character,
+            'price': np.int32,
+            'minimum_nights': np.int32,
+            'number_of_reviews': np.int32,
+            'last_review': np.datetime64,
+            'reviews_per_month': np.int32,
+            'calculated_host_listing_count': np.int32,
+            'availability_365': np.int32
+        }
+    )
     df_airbnb_old = pd.read_csv('Airbnb_Open_Data.csv')
 
     df_airbnb.info()
