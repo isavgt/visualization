@@ -37,9 +37,9 @@ app.layout = html.Div(
     Output("map", "figure"),
     Input("max_price", "value"),
 )
-def sync_input(meter, feet):
+def sync_input(max_price):
     fig = px.scatter_geo(
-        data_frame=df_airbnb.loc[df_airbnb["price"] <= "max_price"],
+        data_frame=df_airbnb.loc[df_airbnb["price"] <= max_price],
         lat="lat",
         lon="long",
         size="price",
