@@ -12,8 +12,10 @@ class Plots(html.Div):
             className="graph_card",
             children=[
                 html.H2(name),
-                html.Div(
-                    html.H
+                html.Div(children=
+                    [html.H5(children= 'Selected airbnb:', id = 'your_price'), 
+                    html.H5(children='Price per night for clicked airbnb: ')
+                    ], id = "info_selected"
                 ),
                 dcc.Graph(id=self.html_id, figure = self.update(None))
             ],
@@ -37,6 +39,3 @@ class Plots(html.Div):
         )
         
         return self.fig
-    
-
-

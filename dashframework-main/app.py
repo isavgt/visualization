@@ -64,7 +64,7 @@ if __name__ == '__main__':
         )
 
     @app.callback(
-        Output("your_price", "children"), 
+        Output("info_selected", "children"), 
         #Output(plots.html_id, "children"),
         Input(map.html_id, 'clickData')
     )
@@ -73,7 +73,10 @@ if __name__ == '__main__':
         selected_row = df_airbnb.loc[df_airbnb['id']==selected_id[0]]
         selected_name = selected_row['NAME'].to_string(index=False)
         selected_price = selected_row['price'].to_string(index=False)
-        return f"""Clicked Airbnb: {selected_name}, Price per night for clicked Airbnb: €{selected_price}"""
+        return  [html.H5(children= f"""Selected airbnb: {selected_name}""", id = 'your_price'), 
+                    html.H5(children=f"""Price per night for clicked airbnb: {selected_price}""")
+                    ]
+       # f"""Clicked Airbnb: {selected_name}, Price per night for clicked Airbnb: €{selected_price}"""
 
     @app.callback(
         Output("plots", "figure"), 
