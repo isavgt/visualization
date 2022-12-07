@@ -4,6 +4,7 @@ from jbi100_app.views.scatterplot import Scatterplot
 from jbi100_app.views.map import Map
 from jbi100_app.views.plots import Plots
 #from jbi100_app.data import read_data
+#test
 
 from dash import html, dcc
 import numpy as np
