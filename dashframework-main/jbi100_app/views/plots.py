@@ -11,11 +11,10 @@ class Plots(html.Div):
         super().__init__(
             className="graph_card",
             children=[
-                html.H6(name),
-                html.H6(children= """
-                Selected airbnb: 
-                Price per night for clicked airbnb: 
-                """, id = 'your_price'),
+                html.H2(name),
+                html.Div(
+                    html.H
+                ),
                 dcc.Graph(id=self.html_id, figure = self.update(None))
             ],
         )
