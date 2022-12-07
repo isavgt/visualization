@@ -5,7 +5,8 @@ import plotly.express as px
 class Map(html.Div):
     def __init__(self, name, long, lat, df):
         self.html_id = name.lower().replace(" ", "-")
-        self.df = df
+        #For screenshotting purposes for interim report, we only show the first 300 rows. 
+        self.df = df[:300]
         self.long = long
         self.lat = lat
 
@@ -14,7 +15,7 @@ class Map(html.Div):
             className="graph_card",
             children=[
                 html.H6(name),
-                dcc.Graph(id=self.html_id, figure=self.update(self.df)),
+                dcc.Graph(id=self.html_id, figure=self.update(self.df), style={'height': '40vh'}),
             ],
         )
 
@@ -23,8 +24,11 @@ class Map(html.Div):
         self.fig.update_layout(
             mapbox={
                 "style": "open-street-map",
-                "zoom": 6,
+                "zoom": 8,
+                "center" : go.layout.mapbox.Center(lat = 40.730610, lon= -73.935242)
             },
-            margin={"l": 0, "r": 0, "t": 0, "r": 0}
+            margin={"l": 0, "r": 0, "t": 0, "r": 0}, 
+            autosize=True,
+            hovermode='closest'
         )
         return self.fig

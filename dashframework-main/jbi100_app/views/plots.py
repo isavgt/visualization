@@ -13,8 +13,8 @@ class Plots(html.Div):
             children=[
                 html.H2(name),
                 html.Div(children=
-                    [html.H5(children= 'Selected airbnb:', id = 'your_price'), 
-                    html.H5(children='Price per night for clicked airbnb: ')
+                    [html.H5(children= 'Selected airbnb:', style={'width': '49%', 'display':'inline-block'}), 
+                    html.H5(children='Price per night for clicked airbnb: ', style={'width': '49%', 'display':'inline-block'})
                     ], id = "info_selected"
                 ),
                 dcc.Graph(id=self.html_id, figure = self.update(None))

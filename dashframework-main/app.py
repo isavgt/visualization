@@ -14,7 +14,7 @@ from dash.dependencies import Input, Output
 import plotly.graph_objects as go
 
 if __name__ == '__main__':
-    # Create data
+    # Import data
     df_airbnb  = pd.read_csv('cleaned_airbnb_data.csv',
         dtype={
             'id': np.int32,
@@ -35,12 +35,12 @@ if __name__ == '__main__':
             'availability_365': np.int32
         }
     )
-    df_airbnb = df_airbnb
 
-    # Instantiate custom views
+    # Create the two objects: map with airbnbs & plots (for now only price)
     map = Map("airbnbs", "long", "lat", df_airbnb)
     plots = Plots("plots", df_airbnb)
 
+    # Create the layout of the page
     app.layout = html.Div(
         id="app-container",
         children=[
@@ -63,27 +63,31 @@ if __name__ == '__main__':
             ],
         )
 
+    # Callback for showing the clicked data (name & price) to user
     @app.callback(
         Output("info_selected", "children"), 
         #Output(plots.html_id, "children"),
         Input(map.html_id, 'clickData')
     )
     def update_text(selected_data):
+        # Get the specific values of the clicked airbnb
         selected_id = selected_data['points'][0]['customdata']
         selected_row = df_airbnb.loc[df_airbnb['id']==selected_id[0]]
         selected_name = selected_row['NAME'].to_string(index=False)
         selected_price = selected_row['price'].to_string(index=False)
-        return  [html.H5(children= f"""Selected airbnb: {selected_name}""", id = 'your_price'), 
-                    html.H5(children=f"""Price per night for clicked airbnb: {selected_price}""")
-                    ]
-       # f"""Clicked Airbnb: {selected_name}, Price per night for clicked Airbnb: €{selected_price}"""
+        # Return the text as a child of "info_selected (in plots)"
+        return [html.H5(children= f'Selected airbnb: {selected_name}', style={'width': '49%', 'display':'inline-block'}), 
+                html.H5(children=f'Price per night for clicked airbnb: {selected_price}', style={'width': '49%', 'display':'inline-block'})]
 
+    # Callback for plotting the plots for a clicked airbnb
     @app.callback(
         Output("plots", "figure"), 
         Input(map.html_id, "clickData")
     )
     def update_plots(selected_data):
+        # Check if there is click data
         if selected_data != None:
+            # Update the plot for the specific point
             selected_id = selected_data['points'][0]['customdata']
             fig = plots.update(selected_id)
 
