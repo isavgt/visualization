@@ -14,14 +14,7 @@ from dash.dependencies import Input, Output
 
 if __name__ == '__main__':
     # Create data
-    df = px.data.iris()
-    df_airbnb = df = pd.read_csv('cleaned_airbnb_data.csv')
-    for ind in df_airbnb.index:
-        if df_airbnb.loc[ind, 'price'] == 'Brooklyn':
-            print('Brook')
-
-
-    df_airbnb = df = pd.read_csv('cleaned_airbnb_data.csv',
+    df_airbnb  = pd.read_csv('cleaned_airbnb_data.csv',
         dtype={
             'id': np.int32,
             'name': np.character,
@@ -41,16 +34,10 @@ if __name__ == '__main__':
             'availability_365': np.int32
         }
     )
-    df_airbnb_old = pd.read_csv('Airbnb_Open_Data.csv')
-
-    df_airbnb.info()
-    print(type(df_airbnb_old.lat[1]))
-    print(type(df_airbnb.lat[1]))
-
-    print(df_airbnb.info())
+    df_airbnb = df_airbnb[:300]
 
     # Instantiate custom views
-    map = Map("Airbnb", "long", "lat", df_airbnb)
+    map = Map("airbnbs", "long", "lat", df_airbnb)
     plots = Plots("plots", df_airbnb)
 
     app.layout = html.Div(
@@ -60,26 +47,30 @@ if __name__ == '__main__':
             html.Div(
                 id="left-column",
                 className="three columns",
-                children=make_menu_layout()
+                children=make_menu_layout(df_airbnb)
             ),
 
             # Right column
             html.Div(
                 id="right-column",
                 className="nine columns",
-                children = dcc.Graph(figure=map.update())
-            ),
-        ],
-    )
-    print()
+                children = [
+                    map,
+                    dcc.Markdown(children='', id='text_displayed')
+                    #plots
+                ]
+                ),
+            ],
+        )
+
     @app.callback(
-        Output(plots.html_id, "figure"), [
-        Input(map.html_id, 'selectedData')
-    ])
-    def update_plots(selected_data):
+        Output("text_displayed", "children"), 
+        Input(map.html_id, 'clickData')
+    )
+    def update_text(selected_data):
         print(selected_data)
         print(type(selected_data))
-        return plots.update(selected_data)
+        return f"""The selected data is: {selected_data}"""
 
 
     app.run_server(debug=False, dev_tools_ui=False)

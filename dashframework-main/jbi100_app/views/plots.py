@@ -17,13 +17,8 @@ class Plots(html.Div):
         )
 
     #create figure
-    def update(self, selected_data):
-        self.fig = go.Figure()
-        data = self.df
-        self.fig.add_trace(go.Histogram(
-            data_frame = data,
-            x= data.price, 
-        ))
+    def update(self):
+        self.fig = go.Figure(data=[go.Histogram(x=self.df['price'])])
 
         # update axis titles
         self.fig.update_layout(
