@@ -11,6 +11,7 @@ import numpy as np
 import plotly.express as px
 import pandas as pd
 from dash.dependencies import Input, Output
+import plotly.graph_objects as go
 
 if __name__ == '__main__':
     # Create data
@@ -34,7 +35,7 @@ if __name__ == '__main__':
             'availability_365': np.int32
         }
     )
-    df_airbnb = df_airbnb[:300]
+    df_airbnb = df_airbnb
 
     # Instantiate custom views
     map = Map("airbnbs", "long", "lat", df_airbnb)
@@ -56,21 +57,34 @@ if __name__ == '__main__':
                 className="nine columns",
                 children = [
                     map,
-                    dcc.Markdown(children='', id='text_displayed')
-                    #plots
+                    plots
                 ]
                 ),
             ],
         )
 
     @app.callback(
-        Output("text_displayed", "children"), 
+        Output("your_price", "children"), 
+        #Output(plots.html_id, "children"),
         Input(map.html_id, 'clickData')
     )
     def update_text(selected_data):
-        print(selected_data)
-        print(type(selected_data))
-        return f"""The selected data is: {selected_data}"""
+        selected_id = selected_data['points'][0]['customdata']
+        selected_row = df_airbnb.loc[df_airbnb['id']==selected_id[0]]
+        selected_name = selected_row['NAME'].to_string(index=False)
+        selected_price = selected_row['price'].to_string(index=False)
+        return f"""Clicked Airbnb: {selected_name}, Price per night for clicked Airbnb: €{selected_price}"""
 
+    @app.callback(
+        Output("plots", "figure"), 
+        Input(map.html_id, "clickData")
+    )
+    def update_plots(selected_data):
+        if selected_data != None:
+            selected_id = selected_data['points'][0]['customdata']
+            fig = plots.update(selected_id)
 
+        else: 
+            fig = plots.update(None)
+        return fig
     app.run_server(debug=False, dev_tools_ui=False)

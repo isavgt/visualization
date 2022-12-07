@@ -12,18 +12,32 @@ class Plots(html.Div):
             className="graph_card",
             children=[
                 html.H6(name),
-                dcc.Graph(id=self.html_id)
+                html.H6(children= """
+                Selected airbnb: 
+                Price per night for clicked airbnb: 
+                """, id = 'your_price'),
+                dcc.Graph(id=self.html_id, figure = self.update(None))
             ],
         )
 
     #create figure
-    def update(self):
-        self.fig = go.Figure(data=[go.Histogram(x=self.df['price'])])
+    def update(self, clicked_id):
+        if clicked_id != None:  
+            neighbourhood = self.df.loc[self.df['id']==clicked_id[0]]['neighbourhood'].to_string(index=False)
+            neighbourhood_data = self.df.loc[self.df['neighbourhood']==neighbourhood]
+            self.fig= go.Figure(data=[go.Histogram(x=neighbourhood_data['price'])])
+            dcc.Graph(id=self.html_id, figure = self.fig)
+        
+        else:
+            self.fig = go.Figure(data=[go.Histogram(x=self.df['price'])])
 
         # update axis titles
         self.fig.update_layout(
-            xaxis_title='price',
+            xaxis_title='price per night',
             yaxis_title='frequency',
         )
-
+        
         return self.fig
+    
+
+
