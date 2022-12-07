@@ -36,7 +36,7 @@ if __name__ == '__main__':
     df_airbnb = df_airbnb[:300]
 
     # Instantiate custom views
-    map = Map("Airbnb", "long", "lat", df_airbnb)
+    map = Map("airbnbs", "long", "lat", df_airbnb)
     plots = Plots("plots", df_airbnb)
 
     app.layout = html.Div(
@@ -54,21 +54,22 @@ if __name__ == '__main__':
                 id="right-column",
                 className="nine columns",
                 children = [
-                    dcc.Graph(id= 'map', figure = map.update()),
-                    dcc.Graph(id='plots', figure = plots.update())
+                    map,
+                    dcc.Markdown(children='', id='text_displayed')
+                    #plots
                 ]
                 ),
             ],
         )
 
-    print(min(df_airbnb.loc[:,'price']))
-
-    # @app.callback(
-    #     Output(plots.html_id, "figure"), [
-    #     Input(map.html_id, 'selectedData')
-    # ])
-    # def update_plots(selected_data):
-    #     return map.update()
+    @app.callback(
+        Output("text_displayed", "children"), 
+        Input(map.html_id, 'clickData')
+    )
+    def update_text(selected_data):
+        print(selected_data)
+        print(type(selected_data))
+        return f"""The selected data is: {selected_data}"""
 
 
     app.run_server(debug=False, dev_tools_ui=False)
