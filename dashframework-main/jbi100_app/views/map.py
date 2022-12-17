@@ -14,7 +14,7 @@ class Map(html.Div):
         super().__init__(
             className="graph_card",
             children=[
-                html.H6(name),
+                html.H4("Airbnbs in New York", style = {'color':'black'}),
                 dcc.Graph(id=self.html_id, figure=self.update(self.df), style={'height': '40vh'}),
             ],
         )

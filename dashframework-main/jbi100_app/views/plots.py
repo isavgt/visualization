@@ -11,10 +11,10 @@ class Plots(html.Div):
         super().__init__(
             className="graph_card",
             children=[
-                html.H2(name),
+                html.H4("Histogram of prices in the same neighbourhood", style = {'color':'black'}),
                 html.Div(children=
                     [html.H5(children= 'Selected airbnb:', style={'width': '49%', 'display':'inline-block'}), 
-                    html.H5(children='Price per night for clicked airbnb: ', style={'width': '49%', 'display':'inline-block'})
+                    html.H5(children='Price per night for clicked airbnb : €', style={'width': '49%', 'display':'inline-block'})
                     ], id = "info_selected"
                 ),
                 dcc.Graph(id=self.html_id, figure = self.update(None))

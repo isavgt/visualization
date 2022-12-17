@@ -77,7 +77,7 @@ if __name__ == '__main__':
         selected_price = selected_row['price'].to_string(index=False)
         # Return the text as a child of "info_selected (in plots)"
         return [html.H5(children= f'Selected airbnb: {selected_name}', style={'width': '49%', 'display':'inline-block'}), 
-                html.H5(children=f'Price per night for clicked airbnb: {selected_price}', style={'width': '49%', 'display':'inline-block'})]
+                html.H5(children=f'Price per night for clicked airbnb : € {selected_price}', style={'width': '49%', 'display':'inline-block'})]
 
     # Callback for plotting the plots for a clicked airbnb
     @app.callback(
@@ -95,3 +95,4 @@ if __name__ == '__main__':
             fig = plots.update(None)
         return fig
     app.run_server(debug=False, dev_tools_ui=False)
+
