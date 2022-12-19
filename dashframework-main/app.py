@@ -31,14 +31,17 @@ if __name__ == '__main__':
             'number_of_reviews': np.int32,
             'last_review': np.datetime64,
             'reviews_per_month': np.int32,
+            'review rate number': np.float64,
             'calculated_host_listing_count': np.int32,
             'availability_365': np.int32
         }
     )
-
     # Create the two objects: map with airbnbs & plots (for now only price)
+    print(df_airbnb.columns)
     map = Map("airbnbs", "long", "lat", df_airbnb)
     plots = Plots("plots", df_airbnb)
+
+    
 
     # Create the layout of the page
     app.layout = html.Div(
@@ -94,5 +97,15 @@ if __name__ == '__main__':
         else: 
             fig = plots.update(None)
         return fig
-    app.run_server(debug=False, dev_tools_ui=False)
 
+    @app.callback(
+        Output("airbnbs", "figure"), 
+        Input("select-price", "value"),
+        Input("select-review-score", "value")
+    )
+    def update_map(price_range, review_range):
+        df_selected_airbnbs = df_airbnb[df_airbnb["price"].between(price_range[0], price_range[1])]
+        fig = map.update(df_selected_airbnbs)
+        return fig
+    
+    app.run_server(debug=False, dev_tools_ui=False)

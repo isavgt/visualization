@@ -23,7 +23,7 @@ class Plots(html.Div):
 
     #create figure
     def update(self, clicked_id):
-        if clicked_id != None:  
+        if clicked_id != None:
             neighbourhood = self.df.loc[self.df['id']==clicked_id[0]]['neighbourhood'].to_string(index=False)
             neighbourhood_data = self.df.loc[self.df['neighbourhood']==neighbourhood]
             self.fig= go.Figure(data=[go.Histogram(x=neighbourhood_data['price'])])
