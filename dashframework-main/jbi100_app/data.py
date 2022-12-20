@@ -62,6 +62,8 @@ for x in range(len(df)):
         
     df['nr_bathrooms'][x] = float(df['nr_bathrooms'][x])
 
+df['price'] = df['price'].astype(int)
+df['name'] = df['name'].astype(str)
 df = df.drop(df[df.price > 2500].index)   
 df.drop(columns=['bathrooms_text'],axis=1,inplace=True)
 df = df.reset_index()
