@@ -3,7 +3,7 @@ import numpy as np
 import ast
 
 #load dataset and generalize column names
-df = pd.read_csv(r'C:\Users\20203171\OneDrive - TU Eindhoven\2022-2023\Q2\Visualization\Project\listings.csv.gz')
+df = pd.read_csv(r'listings.csv.gz')
 df.columns=[col.lower().replace(" ","_") for col in df.columns]
 
 #dropping columns that are mostly missing values
@@ -63,4 +63,4 @@ for x in range(len(df)):
     df['nr_bathrooms'][x] = float(df['nr_bathrooms'][x])
     
 df.drop(columns=['bathrooms_text'],axis=1,inplace=True)
-
+df.to_csv('cleaned_airbnb_data.csv', index = False)

@@ -15,33 +15,10 @@ import plotly.graph_objects as go
 
 if __name__ == '__main__':
     # Import data
-    df_airbnb  = pd.read_csv('cleaned_airbnb_data.csv',
-        dtype={
-            'id': np.int32,
-            'name': np.character,
-            'host_id': np.int32,
-            'host_name': np.character,
-            'neighboorhoud_group': np.character,
-            'neighboorhooud': np.character,
-            'latitude': np.float16,
-            'longitude': np.float16,
-            'room_type': np.character,
-            'price': np.int32,
-            'minimum_nights': np.int32,
-            'number_of_reviews': np.int32,
-            'last_review': np.datetime64,
-            'reviews_per_month': np.int32,
-            'review rate number': np.float64,
-            'calculated_host_listing_count': np.int32,
-            'availability_365': np.int32
-        }
-    )
+    df_airbnb  = pd.read_csv('cleaned_airbnb_data.csv')
     # Create the two objects: map with airbnbs & plots (for now only price)
-    print(df_airbnb.columns)
-    map = Map("airbnbs", "long", "lat", df_airbnb)
+    map = Map("airbnbs", "longitude", "latitude", df_airbnb)
     plots = Plots("plots", df_airbnb)
-
-    
 
     # Create the layout of the page
     app.layout = html.Div(
