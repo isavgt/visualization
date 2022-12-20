@@ -1,30 +1,34 @@
 from dash import dcc, html
 import plotly.graph_objects as go
-import pandas as pd
 import plotly.express as px
 
 class Map(html.Div):
     def __init__(self, name, long, lat, df):
         self.html_id = name.lower().replace(" ", "-")
-        self.df = df
+        #For screenshotting purposes for interim report, we only show the first 300 rows. 
+        self.df = df[:300]
         self.long = long
         self.lat = lat
-        #test
 
         # Equivalent to `html.Div([...])`
         super().__init__(
             className="graph_card",
             children=[
                 html.H6(name),
-                dcc.Graph(id=self.html_id)
+                dcc.Graph(id=self.html_id, figure=self.update(self.df), style={'height': '40vh'}),
             ],
         )
 
-    def update(self):
-        self.fig = px.scatter_mapbox(self.df, lat="lat", lon="long", hover_name="NAME", hover_data=[],
-                        color_discrete_sequence=["fuchsia"], zoom=3)
-        self.fig.update_layout(mapbox_style="open-street-map")
-        self.fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
-        self.fig.update_traces(cluster=dict(enabled=True, size = 10, step = 10))
-
+    def update(self, df_selected):
+        self.fig = px.scatter_mapbox(df_selected, lat="lat", lon="long", custom_data=['id'])
+        self.fig.update_layout(
+            mapbox={
+                "style": "open-street-map",
+                "zoom": 8,
+                "center" : go.layout.mapbox.Center(lat = 40.730610, lon= -73.935242)
+            },
+            margin={"l": 0, "r": 0, "t": 0, "r": 0}, 
+            autosize=True,
+            hovermode='closest'
+        )
         return self.fig

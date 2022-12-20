@@ -10,16 +10,16 @@ def generate_description_card():
     return html.Div(
         id="description-card",
         children=[
-            html.H5("Example dashboard"),
+            html.H5("CompAirbnb"),
             html.Div(
                 id="intro",
-                children="You can use this as a basic template for your JBI100 visualization project.",
+                children="You can use this to select the perfect Airbnb for your trip to New York.",
             ),
         ],
     )
 
 
-def generate_control_card():
+def generate_control_card(df):
     """
 
     :return: A Div containing controls for graphs.
@@ -27,22 +27,22 @@ def generate_control_card():
     return html.Div(
         id="control-card",
         children=[
-            html.Label("Color scatterplot 1"),
-            dcc.Dropdown(
-                id="select-color-scatter-1",
-                options=[{"label": i, "value": i} for i in color_list1],
-                value=color_list1[0],
-            ),
+            html.Label("Select price per night"),
+            dcc.RangeSlider(
+                id = 'select-price',
+                min = min(df.loc[:,'price']), 
+                max = max(df.loc[:,'price'])),
             html.Br(),
-            html.Label("Color scatterplot 2"),
-            dcc.Dropdown(
-                id="select-color-scatter-2",
-                options=[{"label": i, "value": i} for i in color_list2],
-                value=color_list2[0],
+            html.Label("Select review score"),
+            dcc.RangeSlider(
+                id="select-review-score",
+                min = 0,
+                max = 5,
+                step = 1
             ),
         ], style={"textAlign": "float-left"}
     )
 
 
-def make_menu_layout():
-    return [generate_description_card(), generate_control_card()]
+def make_menu_layout(df):
+    return [generate_description_card(), generate_control_card(df)]
