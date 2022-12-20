@@ -61,6 +61,9 @@ for x in range(len(df)):
         df['nr_bathrooms'][x] = '0.5'
         
     df['nr_bathrooms'][x] = float(df['nr_bathrooms'][x])
-    
+
+df = df.drop(df[df.price > 2500].index)   
 df.drop(columns=['bathrooms_text'],axis=1,inplace=True)
+df = df.reset_index()
 df.to_csv('cleaned_airbnb_data.csv', index = False)
+
