@@ -53,7 +53,7 @@ if __name__ == '__main__':
         # Get the specific values of the clicked airbnb
         selected_id = selected_data['points'][0]['customdata']
         selected_row = df_airbnb.loc[df_airbnb['id']==selected_id[0]]
-        selected_name = selected_row['NAME'].to_string(index=False)
+        selected_name = selected_row['name'].to_string(index=False)
         selected_price = selected_row['price'].to_string(index=False)
         # Return the text as a child of "info_selected (in plots)"
         return [html.H5(children= f'Selected airbnb: {selected_name}', style={'width': '49%', 'display':'inline-block'}), 
@@ -82,6 +82,7 @@ if __name__ == '__main__':
     )
     def update_map(price_range, review_range):
         df_selected_airbnbs = df_airbnb[df_airbnb["price"].between(price_range[0], price_range[1])]
+        df_selected_airbnbs = df_airbnb[df_airbnb["review_scores_value"].between(review_range[0], review_range[1])]
         fig = map.update(df_selected_airbnbs)
         return fig
     
