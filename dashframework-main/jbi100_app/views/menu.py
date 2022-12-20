@@ -10,10 +10,10 @@ def generate_description_card():
     return html.Div(
         id="description-card",
         children=[
-            html.H5("CompAirbnb"),
-            html.Div(
+            html.H2("CompAirbnb", style={"color": "#1EAEDB"}),
+            html.H3(
                 id="intro",
-                children="You can use this to select the perfect Airbnb for your trip to New York.",
+                children="You can use this to select the perfect Airbnb for your trip to New York."
             ),
         ],
     )

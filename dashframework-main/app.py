@@ -31,14 +31,17 @@ if __name__ == '__main__':
             'number_of_reviews': np.int32,
             'last_review': np.datetime64,
             'reviews_per_month': np.int32,
+            'review rate number': np.float64,
             'calculated_host_listing_count': np.int32,
             'availability_365': np.int32
         }
     )
-
     # Create the two objects: map with airbnbs & plots (for now only price)
+    print(df_airbnb.columns)
     map = Map("airbnbs", "long", "lat", df_airbnb)
     plots = Plots("plots", df_airbnb)
+
+    
 
     # Create the layout of the page
     app.layout = html.Div(
@@ -77,7 +80,7 @@ if __name__ == '__main__':
         selected_price = selected_row['price'].to_string(index=False)
         # Return the text as a child of "info_selected (in plots)"
         return [html.H5(children= f'Selected airbnb: {selected_name}', style={'width': '49%', 'display':'inline-block'}), 
-                html.H5(children=f'Price per night for clicked airbnb: {selected_price}', style={'width': '49%', 'display':'inline-block'})]
+                html.H5(children=f'Price per night for clicked airbnb : € {selected_price}', style={'width': '49%', 'display':'inline-block'})]
 
     # Callback for plotting the plots for a clicked airbnb
     @app.callback(
@@ -94,4 +97,15 @@ if __name__ == '__main__':
         else: 
             fig = plots.update(None)
         return fig
+
+    @app.callback(
+        Output("airbnbs", "figure"), 
+        Input("select-price", "value"),
+        Input("select-review-score", "value")
+    )
+    def update_map(price_range, review_range):
+        df_selected_airbnbs = df_airbnb[df_airbnb["price"].between(price_range[0], price_range[1])]
+        fig = map.update(df_selected_airbnbs)
+        return fig
+    
     app.run_server(debug=False, dev_tools_ui=False)
