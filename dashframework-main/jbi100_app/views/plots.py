@@ -25,9 +25,11 @@ class Plots(html.Div):
     def update(self, clicked_id):
         if clicked_id != None:
             neighbourhood = self.df.loc[self.df['id']==clicked_id[0]]['neighbourhood'].to_string(index=False)
+            print(self.df.loc[self.df['id']==clicked_id[0]]['price'])
             price = self.df.loc[self.df['id']==clicked_id[0]]['price'].values[0]
             neighbourhood_data = self.df.loc[self.df['neighbourhood']==neighbourhood]
             self.fig= go.Figure(data=[go.Histogram(x=neighbourhood_data['price'])])
+            print(clicked_id)
             print(type(price))
             self.fig.add_vline(x=price, line_dash = 'dash', line_color = 'firebrick')
             dcc.Graph(id=self.html_id, figure = self.fig)

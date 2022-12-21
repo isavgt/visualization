@@ -53,9 +53,16 @@ def generate_control_card(df):
             html.Br(), 
             html.Label("Select the room type"),
             dcc.Dropdown(
-                ['Private room','Entire home/apt','Hotel room','Shared room'],
-                id="select-roomtype",
+                id = "select-roomtype",
+                options = ['Private room','Entire home/apt','Hotel room','Shared room'],
+                value = ["Private room", "Entire home/apt", "Hotel room", "Shared room"],
                 multi = True
+            ), 
+            html.Br(), 
+            html.Label("Other filters"),
+            dcc.Checklist(
+                id = "select-superhost", 
+                options = ["Superhost"]
             )
         ], style={"textAlign": "float-left"}
     )
