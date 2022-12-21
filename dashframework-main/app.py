@@ -78,11 +78,13 @@ if __name__ == '__main__':
     @app.callback(
         Output("airbnbs", "figure"), 
         Input("select-price", "value"),
-        Input("select-review-score", "value")
+        Input("select-review-score", "value"),
+        Input("select-accommodates", "value")
     )
-    def update_map(price_range, review_range):
+    def update_map(price_range, review_range, accommodate_range):
         df_selected_airbnbs = df_airbnb[df_airbnb["price"].between(price_range[0], price_range[1])]
-        df_selected_airbnbs = df_airbnb[df_airbnb["review_scores_value"].between(review_range[0], review_range[1])]
+        df_selected_airbnbs = df_selected_airbnbs[df_selected_airbnbs["review_scores_value"].between(review_range[0], review_range[1])]
+        df_selected_airbnbs = df_selected_airbnbs[df_selected_airbnbs["accommodates"].between(accommodate_range[0], accommodate_range[1])]
         fig = map.update(df_selected_airbnbs)
         return fig
     

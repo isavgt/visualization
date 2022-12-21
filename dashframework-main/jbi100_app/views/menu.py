@@ -31,15 +31,25 @@ def generate_control_card(df):
             dcc.RangeSlider(
                 id = 'select-price',
                 min = min(df.loc[:,'price']), 
-                max = max(df.loc[:,'price'])),
+                max = max(df.loc[:,'price']),
+                value=[min(df.loc[:,'price']), max(df.loc[:,'price'])]),
             html.Br(),
             html.Label("Select review score"),
             dcc.RangeSlider(
                 id="select-review-score",
-                min = 0,
+                min = 1,
                 max = 5,
-                step = 1
-            ),
+                step = 1,
+                value = [1,5]),
+            html.Br(),
+            html.Label("Select number of people"),
+            dcc.RangeSlider(
+                id="select-accommodates",
+                min = min(df.loc[:,'accommodates']),
+                max = max(df.loc[:,'accommodates']),
+                step = 1,
+                value = [min(df.loc[:,'accommodates']),max(df.loc[:,'accommodates'])]
+            )
         ], style={"textAlign": "float-left"}
     )
 
