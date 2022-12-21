@@ -31,12 +31,29 @@ def read_dangerous_data():
                  'OFFENSES AGAINST PUBLIC SAFETY', 'HOMICIDE-NEGLIGENT-VEHICLE', 'KIDNAPPING & RELATED OFFENSES',
                  'FRAUDULENT ACCOSTING', 'UNLAWFUL POSS. WEAP. ON SCHOOL', 'KIDNAPPING']
 
+    #drops every row that is not classified as dangerous
     for index in range(len(df['OFNS_DESC'])):
         value = df['OFNS_DESC'][index]  # strinng
         if value not in dangerous:
             df.drop(index, inplace=True, axis=0)
+    df.reset_index()
 
-    return df
+    #copies the cleaned df database
+    df_with_score = df.copy()
+
+    #makes an extra column called score that gives a 5 to felonies, a 3 to misdemeanors and a 1 to violations
+    df_with_score['SCORE'] = 0
+    for x in range(len(df_with_score)):
+        if df_with_score['LAW_CAT_CD'][x] == 'F':
+            df_with_score['SCORE'][x] = 5
+        elif df_with_score['LAW_CAT_CD'][x] == 'M':
+            df_with_score['SCORE'][x] = 3
+        elif df_with_score['LAW_CAT_CD'][x] == 'V':
+            df_with_score['SCORE'][x] = 1
+        else:
+            print('something went wrong')
+
+    return df, df_with_score
 
 
 read_dangerous_data()
