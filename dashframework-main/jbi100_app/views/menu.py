@@ -49,6 +49,13 @@ def generate_control_card(df):
                 max = max(df.loc[:,'accommodates']),
                 step = 1,
                 value = [min(df.loc[:,'accommodates']),max(df.loc[:,'accommodates'])]
+            ),
+            html.Br(), 
+            html.Label("Select the room type"),
+            dcc.Dropdown(
+                ['Private room','Entire home/apt','Hotel room','Shared room'],
+                id="select-roomtype",
+                multi = True
             )
         ], style={"textAlign": "float-left"}
     )
