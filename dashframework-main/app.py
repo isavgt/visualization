@@ -46,7 +46,6 @@ if __name__ == '__main__':
     # Callback for showing the clicked data (name & price) to user
     @app.callback(
         Output("info_selected", "children"), 
-        #Output(plots.html_id, "children"),
         Input(map.html_id, 'clickData')
     )
     def update_text(selected_data):
@@ -56,8 +55,21 @@ if __name__ == '__main__':
         selected_name = selected_row['name'].to_string(index=False)
         selected_price = selected_row['price'].to_string(index=False)
         # Return the text as a child of "info_selected (in plots)"
-        return [html.H5(children= f'Selected airbnb: {selected_name}', style={'width': '49%', 'display':'inline-block'}), 
-                html.H5(children=f'Price per night for clicked airbnb : € {selected_price}', style={'width': '49%', 'display':'inline-block'})]
+        return html.Table(
+            [html.Tr([html.Td(html.H5(children='Selected airbnb:', style={'width': '49%'}))] + [html.Td(selected_name)])] +
+            # second row of the table
+            [html.Tr(
+                [html.Td(html.H5(children='Price per night for selected Airbnb in dollar:', style={'width': '49%'}))] + [html.Td(selected_price)])] +
+            # third row
+            [html.Tr([html.Td(html.H5(children='Neighborhood:', style={'width': '49%'}))] + [html.Td('test')])],
+            style={'width': '80%'})
+
+
+
+
+        #return #[html.H5(children= f'Selected airbnb: {selected_name}', style={'width': '49%', 'display':'inline-block'}),
+                #html.H5(children=f'Price per night for clicked airbnb : € {selected_price}', style={'width': '49%', 'display':'inline-block'})]
+
 
     # Callback for plotting the plots for a clicked airbnb
     @app.callback(
@@ -78,11 +90,18 @@ if __name__ == '__main__':
     @app.callback(
         Output("airbnbs", "figure"), 
         Input("select-price", "value"),
-        Input("select-review-score", "value")
+        Input("select-review-score", "value"),
+        Input("select-accommodates", "value"),
+        Input("select-roomtype", "value"), 
+        Input("select-superhost", "value")
     )
-    def update_map(price_range, review_range):
+    def update_map(price_range, review_range, accommodate_range, room_type, superhost):
         df_selected_airbnbs = df_airbnb[df_airbnb["price"].between(price_range[0], price_range[1])]
-        df_selected_airbnbs = df_airbnb[df_airbnb["review_scores_value"].between(review_range[0], review_range[1])]
+        df_selected_airbnbs = df_selected_airbnbs[df_selected_airbnbs["review_scores_value"].between(review_range[0], review_range[1])]
+        df_selected_airbnbs = df_selected_airbnbs[df_selected_airbnbs["accommodates"].between(accommodate_range[0], accommodate_range[1])]
+        df_selected_airbnbs = df_selected_airbnbs[df_selected_airbnbs["room_type"].isin(room_type)]
+        if superhost == ['Superhost']: 
+            df_selected_airbnbs = df_selected_airbnbs[df_selected_airbnbs["host_is_superhost"]==True]
         fig = map.update(df_selected_airbnbs)
         return fig
     
