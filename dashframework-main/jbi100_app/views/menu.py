@@ -61,8 +61,8 @@ def generate_control_card(df):
             html.Br(), 
             html.Label("Other filters"),
             dcc.Checklist(
-                id = "select-superhost", 
-                options = ["Superhost"]
+                id = "select-other-filters", 
+                options = ["Superhost", "Private Bathroom"]
             )
         ], style={"textAlign": "float-left"}
     )
