@@ -20,7 +20,7 @@ class Map(html.Div):
         )
 
     def update(self, selected_df):
-        self.fig = go.Figure(px.scatter_mapbox(selected_df, lat="latitude", lon="longitude", custom_data=['id']))
+        self.fig = go.Figure(px.scatter_mapbox(selected_df, color_discrete_sequence=["fuchsia"],lat="latitude", lon="longitude", custom_data=['id']))
         self.fig.update_layout(
             mapbox={
                 "style": "open-street-map",
