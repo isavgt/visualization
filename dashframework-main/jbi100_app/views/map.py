@@ -16,11 +16,12 @@ class Map(html.Div):
             children=[
                 html.H4("Airbnbs in New York", style = {'color':'black'}),
                 dcc.Graph(id=self.html_id, figure=self.update(self.df), style={'height': '40vh'}),
+                html.H6("The safety score of the grey markers is unknown.")
             ],
         )
 
     def update(self, selected_df):
-        self.fig = go.Figure(px.scatter_mapbox(selected_df, color_discrete_sequence=["fuchsia"],lat="latitude", lon="longitude", custom_data=['id']))
+        self.fig = go.Figure(px.scatter_mapbox(selected_df,color_continuous_scale=px.colors.sequential.Plasma,lat="latitude", lon="longitude", color="Danger Score",custom_data=['id']))
         self.fig.update_layout(
             mapbox={
                 "style": "open-street-map",

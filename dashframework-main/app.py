@@ -5,6 +5,7 @@ from jbi100_app.views.map import Map
 from jbi100_app.views.plots import Plots
 
 from dash import html, dcc
+import math
 import numpy as np
 import plotly.express as px
 import pandas as pd
@@ -13,7 +14,7 @@ import plotly.graph_objects as go
 
 if __name__ == '__main__':
     # Import data
-    df_airbnb  = pd.read_csv('cleaned_airbnb_data.csv')
+    df_airbnb  = pd.read_csv('airbnb_with_crimes.csv')
     # Create the two objects: map with airbnbs & plots (for now only price)
     map = Map("airbnbs", "longitude", "latitude", df_airbnb)
     plots = Plots("plots", df_airbnb)
