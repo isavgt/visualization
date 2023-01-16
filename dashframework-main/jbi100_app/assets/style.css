@@ -7,22 +7,42 @@ body {
 }
 
 #left-column {
-    padding: 20px 2rem;
+    padding: 0rem 2rem;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    background:  #dadada;
+    margin: 0;
 }
 
-#right-column {
-    background-color: #f4f4f4;
+#middle-column {
     padding: 0rem 2rem;
     min-height: 100vh;
+    background:  #cdcdcd;
+    flex-direction: column;
+    margin: 0;
+    display: flex;
+
+}
+#right-column {
+    padding: 0rem 2rem;
+    min-height: 100vh;
+    background:  #c0c0c0;
+    flex-direction: column;
+    margin: 0;
+    display: flex;
 
 }
 
 h5 {
-    color: #2c8cff;
     font-weight: 300;
+    font-size: 18px;
+}
+
+h4 {
+    color: black;
+    font-weight: 300;
+    font-size: 20px;
 }
 
 #intro {
@@ -37,13 +57,38 @@ h5 {
 .graph_card {
     background-color: white;
     border-radius: 0.675rem;
+    margin: 20px;
+    height: 700px;
     padding: 1rem;
-    margin: auto;
-    margin-top: 20px;
 }
 
 .graph_card h6 {
     margin:  0 7px;
     padding-bottom: 7px;
     border-bottom:  1px solid #ccc;
+}
+
+.rc-slider-track {
+    background-color: #3567AC;
+  }
+.rc-slider-dot {  
+    border-color: #3567AC;
+    border: solid 1px #000000;
+  }
+.rc-slider-handle {
+    background-color: #3567AC;
+    border-color:  white;
+  }
+  
+.rc-slider-handle:hover {
+    border-color:  #3567AC;
+  }
+  
+.rc-slider-handle-active:active {
+    border-color:  #3567AC;
+  }
+.Select--multi .Select-value {
+    background-color: #3567AC;
+    border-color: white;
+    color: white;
 }

@@ -14,9 +14,9 @@ class Map(html.Div):
         super().__init__(
             className="graph_card",
             children=[
-                html.H4("Airbnbs in New York", style = {'color':'black'}),
-                dcc.Graph(id=self.html_id, figure=self.update(self.df), style={'height': '40vh'}),
-                html.H6("The safety score of the grey markers is unknown.")
+                html.H4("Airbnbs in New York City", style = {'color':'black','font-size':'30px'}),
+                dcc.Graph(id=self.html_id, figure=self.update(self.df), style={'height': '80vh'}),
+                html.H6("Note: Danger score of the grey markers is unknown.", style={'color':'black','font-size':'14px'})
             ],
         )
 
@@ -28,7 +28,7 @@ class Map(html.Div):
                 "zoom": 8,
                 "center" : go.layout.mapbox.Center(lat = 40.730610, lon= -73.935242)
             },
-            margin={"l": 0, "r": 0, "t": 0, "r": 0}, 
+            margin=dict(l=20, r=20, t=20, b=20), 
             autosize=True,
             hovermode='closest'
         )         
