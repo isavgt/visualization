@@ -23,20 +23,20 @@ class Map(html.Div):
 
     def update(self, selected_df, heatmap):
         if heatmap == 'Danger Score':
-            self.fig = go.Figure(px.scatter_mapbox(selected_df,color_continuous_scale=px.colors.sequential.Magma,lat="latitude",
-                lon="longitude", color="Danger Score", custom_data=['id']))
+            self.fig = go.Figure(px.scatter_mapbox(selected_df,color_continuous_scale=px.colors.sequential.Plasma,lat="latitude",
+                lon="longitude", color="Danger Score",hover_data={'latitude':False, 'longitude':False,'price':True,'review_scores_value':True,'neighbourhood':True}, custom_data=['id']))
         
         elif heatmap == 'No color scale':
-            self.fig = go.Figure(px.scatter_mapbox(selected_df,color_discrete_sequence=["fuchsia"],lat="latitude",
-            lon="longitude", custom_data=['id']))
+            self.fig = go.Figure(px.scatter_mapbox(selected_df,color_discrete_sequence=["#3567AC"],lat="latitude",
+            hover_data={'latitude':False, 'longitude':False,'price':True,'review_scores_value':True,'neighbourhood':True},lon="longitude", custom_data=['id']))
 
         elif heatmap == 'Price':
-            self.fig = go.Figure(px.scatter_mapbox(selected_df,color_continuous_scale=px.colors.sequential.Magma,lat="latitude",
-                lon="longitude", color="price", custom_data=['id']))
+            self.fig = go.Figure(px.scatter_mapbox(selected_df,color_continuous_scale=px.colors.sequential.Plasma,lat="latitude",
+            hover_data={'latitude':False, 'longitude':False,'price':True,'review_scores_value':True,'neighbourhood':True},lon="longitude", color="price", custom_data=['id']))
         
         self.fig.update_layout(
             mapbox={
-                "style": "stamen-terrain",
+                "style": "carto-positron",
                 "zoom": 8,
                 "center" : go.layout.mapbox.Center(lat = 40.730610, lon= -73.935242)
             },
