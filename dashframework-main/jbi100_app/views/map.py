@@ -22,7 +22,7 @@ class Map(html.Div):
 
     def update(self, selected_df):
         self.fig = go.Figure(px.scatter_mapbox(selected_df,color_continuous_scale=px.colors.sequential.Plasma,lat="latitude",
-             lon="longitude", color="Danger Score", custom_data=['id']))
+             lon="longitude", color="Danger Score", hover_data={'latitude':False, 'longitude':False,'price':True,'review_scores_value':True,'neighbourhood':True} ,custom_data=['id']))
         self.fig.update_layout(
             mapbox={
                 "style": "open-street-map",
