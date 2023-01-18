@@ -85,9 +85,10 @@ if __name__ == '__main__':
         Input("select-review-score", "value"),
         Input("select-accommodates", "value"),
         Input("select-roomtype", "value"), 
-        Input("select-other-filters", "value")
+        Input("select-other-filters", "value"),
+        Input("select-heatmap","value")
     )
-    def update_map(price_range, review_range, accommodate_range, room_type, other_filters):
+    def update_map(price_range, review_range, accommodate_range, room_type, other_filters,heatmap):
         df_selected_airbnbs = df_airbnb[df_airbnb["price"].between(price_range[0], price_range[1])]
         df_selected_airbnbs = df_selected_airbnbs[df_selected_airbnbs["review_scores_value"].between(review_range[0], review_range[1])]
         df_selected_airbnbs = df_selected_airbnbs[df_selected_airbnbs["accommodates"].between(accommodate_range[0], accommodate_range[1])]
@@ -96,7 +97,7 @@ if __name__ == '__main__':
             df_selected_airbnbs = df_selected_airbnbs[df_selected_airbnbs["host_is_superhost"]==True]
         if 'Private Bathroom' in other_filters: 
             df_selected_airbnbs = df_selected_airbnbs[df_selected_airbnbs["Private/Shared"]=="Private"]
-        fig = map.update(df_selected_airbnbs)
+        fig = map.update(df_selected_airbnbs, heatmap)
         return fig
-    
+
     app.run_server(debug=False, dev_tools_ui=False)
