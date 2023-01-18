@@ -10,10 +10,10 @@ def generate_description_card():
     return html.Div(
         id="description-card",
         children=[
-            html.H3("CompAirbnb", style={"color": "#1EAEDB"}),
+            html.H3("CompAirbnb", style={"color": "black",'font-size':'54px'}),
             html.H4(
                 id="intro",
-                children="You can use this to select the perfect Airbnb for your trip to New York."
+                children="You can use this to find the perfect Airbnb for your trip to New York City."
             ),
         ],
     )
@@ -32,7 +32,9 @@ def generate_control_card(df):
                 id = 'select-price',
                 min = min(df.loc[:,'price']), 
                 max = max(df.loc[:,'price']),
-                value=[min(df.loc[:,'price']), max(df.loc[:,'price'])]),
+                value=[min(df.loc[:,'price']), max(df.loc[:,'price'])],
+                ),
+                
             html.Br(),
             html.Label("Select review score"),
             dcc.RangeSlider(
@@ -48,7 +50,7 @@ def generate_control_card(df):
                 min = min(df.loc[:,'accommodates']),
                 max = max(df.loc[:,'accommodates']),
                 step = 1,
-                value = [min(df.loc[:,'accommodates']),max(df.loc[:,'accommodates'])]
+                value = [min(df.loc[:,'accommodates']),max(df.loc[:,'accommodates'])],
             ),
             html.Br(), 
             html.Label("Select the room type"),
@@ -56,7 +58,7 @@ def generate_control_card(df):
                 id = "select-roomtype",
                 options = ['Private room','Entire home/apt','Hotel room','Shared room'],
                 value = ["Private room", "Entire home/apt", "Hotel room", "Shared room"],
-                multi = True
+                multi = True,
             ), 
             html.Br(), 
             html.Label("Other filters"),

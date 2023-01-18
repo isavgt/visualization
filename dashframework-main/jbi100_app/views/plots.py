@@ -11,13 +11,14 @@ class Plots(html.Div):
         super().__init__(
             className="graph_card",
             children=[
-                html.H4("Histogram of prices in the same neighbourhood", style = {'color':'black'}),
+                html.H4("Prices in the same neighbourhood", style = {'color':'black','font-size':'25px'}),
                 html.Div(children=
-                    [html.H5(children= 'Selected airbnb:', style={'width': '49%', 'display':'inline-block'}), 
-                    html.H5(children='Price per night for clicked airbnb : €', style={'width': '49%', 'display':'inline-block'})
+                    [html.H5(children= 'Selected airbnb:', style={'display':'block','font-size':'14px'}), 
+                    html.H5(children='Price per night: €', style={'display':'block','font-size':'14px'}),
+                    html.H5(children='Neighbourhood:', style={'display':'block','font-size':'14px'})
                     ], id = "info_selected"
                 ),
-                dcc.Graph(id=self.html_id, figure = self.update(None))
+                dcc.Graph(id=self.html_id, figure = self.update(None),style={'height': '70vh'})
             ],
         )
 
@@ -28,19 +29,20 @@ class Plots(html.Div):
             print(self.df.loc[self.df['id']==clicked_id[0]]['price'])
             price = self.df.loc[self.df['id']==clicked_id[0]]['price'].values[0]
             neighbourhood_data = self.df.loc[self.df['neighbourhood']==neighbourhood]
-            self.fig= go.Figure(data=[go.Histogram(x=neighbourhood_data['price'])])
+            self.fig= go.Figure(data=[go.Histogram(x=neighbourhood_data['price'], marker_color='#3567AC')])
             print(clicked_id)
             print(type(price))
-            self.fig.add_vline(x=price, line_dash = 'dash', line_color = 'firebrick')
+            self.fig.add_vline(x=price, line_dash = 'dash', line_color = '#FFAC1E')
             dcc.Graph(id=self.html_id, figure = self.fig)
         
         else:
-            self.fig = go.Figure(data=[go.Histogram(x=self.df['price'])])
+            self.fig = go.Figure(data=[go.Histogram(x=self.df['price'], marker_color='#3567AC')] )
 
         # update axis titles
         self.fig.update_layout(
             xaxis_title='price per night',
             yaxis_title='frequency',
+            margin=dict(l=20, r=20, t=20, b=20)
         )
         
         

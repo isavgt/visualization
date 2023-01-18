@@ -14,20 +14,22 @@ class Map(html.Div):
         super().__init__(
             className="graph_card",
             children=[
-                html.H4("Airbnbs in New York", style = {'color':'black'}),
-                dcc.Graph(id=self.html_id, figure=self.update(self.df), style={'height': '40vh'}),
+                html.H4("Airbnbs in New York City", style = {'color':'black','font-size':'30px'}),
+                dcc.Graph(id=self.html_id, figure=self.update(self.df), style={'height': '80vh'}),
+                html.H6("Note: Danger score of the grey markers is unknown.", style={'color':'black','font-size':'14px'})
             ],
         )
 
     def update(self, selected_df):
-        self.fig = go.Figure(px.scatter_mapbox(selected_df, color_discrete_sequence=["fuchsia"],lat="latitude", lon="longitude", custom_data=['id']))
+        self.fig = go.Figure(px.scatter_mapbox(selected_df,color_continuous_scale=px.colors.sequential.Plasma,lat="latitude",
+             lon="longitude", color="Danger Score", custom_data=['id']))
         self.fig.update_layout(
             mapbox={
                 "style": "open-street-map",
                 "zoom": 8,
                 "center" : go.layout.mapbox.Center(lat = 40.730610, lon= -73.935242)
             },
-            margin={"l": 0, "r": 0, "t": 0, "r": 0}, 
+            margin=dict(l=20, r=20, t=20, b=20), 
             autosize=True,
             hovermode='closest'
         )         

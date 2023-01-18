@@ -3,10 +3,9 @@ from jbi100_app.views.menu import make_menu_layout
 from jbi100_app.views.scatterplot import Scatterplot
 from jbi100_app.views.map import Map
 from jbi100_app.views.plots import Plots
-#from jbi100_app.data import read_data
-#test
 
 from dash import html, dcc
+import math
 import numpy as np
 import plotly.express as px
 import pandas as pd
@@ -15,7 +14,7 @@ import plotly.graph_objects as go
 
 if __name__ == '__main__':
     # Import data
-    df_airbnb  = pd.read_csv('cleaned_airbnb_data.csv')
+    df_airbnb  = pd.read_csv('airbnb_with_crimes.csv')
     # Create the two objects: map with airbnbs & plots (for now only price)
     map = Map("airbnbs", "longitude", "latitude", df_airbnb)
     plots = Plots("plots", df_airbnb)
@@ -31,14 +30,18 @@ if __name__ == '__main__':
                 children=make_menu_layout(df_airbnb)
             ),
 
+            # Middle column
+            html.Div(
+                id="middle-column",
+                className="five columns",
+                children = map
+                ),
+
             # Right column
             html.Div(
                 id="right-column",
-                className="nine columns",
-                children = [
-                    map,
-                    plots
-                ]
+                className="four columns",
+                children = plots
                 ),
             ],
         )
@@ -54,9 +57,11 @@ if __name__ == '__main__':
         selected_row = df_airbnb.loc[df_airbnb['id']==selected_id[0]]
         selected_name = selected_row['name'].to_string(index=False)
         selected_price = selected_row['price'].to_string(index=False)
+        selected_neighbourhood = selected_row['neighbourhood'].to_string(index=False)
         # Return the text as a child of "info_selected (in plots)"
-        return [html.H5(children= f'Selected airbnb: {selected_name}', style={'width': '49%', 'display':'inline-block'}), 
-                html.H5(children=f'Price per night for clicked airbnb : € {selected_price}', style={'width': '49%', 'display':'inline-block'})]
+        return [html.H5(children= f'Selected airbnb: {selected_name}', style={ 'display':'block','font-size':'14px'}), 
+                html.H5(children=f'Price per night: €{selected_price}', style={ 'display':'block','font-size':'14px'}),
+                html.H5(children=f'Neighbourhood: {selected_neighbourhood}', style={'display':'block','font-size':'14px'})]
 
     # Callback for plotting the plots for a clicked airbnb
     @app.callback(
