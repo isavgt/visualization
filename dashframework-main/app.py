@@ -57,9 +57,11 @@ if __name__ == '__main__':
         selected_row = df_airbnb.loc[df_airbnb['id']==selected_id[0]]
         selected_name = selected_row['name'].to_string(index=False)
         selected_price = selected_row['price'].to_string(index=False)
+        selected_neighbourhood = selected_row['neighbourhood'].to_string(index=False)
         # Return the text as a child of "info_selected (in plots)"
         return [html.H5(children= f'Selected airbnb: {selected_name}', style={ 'display':'block','font-size':'14px'}), 
-                html.H5(children=f'Price per night: €{selected_price}', style={ 'display':'block','font-size':'14px'})]
+                html.H5(children=f'Price per night: €{selected_price}', style={ 'display':'block','font-size':'14px'}),
+                html.H5(children=f'Neighbourhood: {selected_neighbourhood}', style={'display':'block','font-size':'14px'})]
 
     # Callback for plotting the plots for a clicked airbnb
     @app.callback(

@@ -14,7 +14,8 @@ class Plots(html.Div):
                 html.H4("Prices in the same neighbourhood", style = {'color':'black','font-size':'25px'}),
                 html.Div(children=
                     [html.H5(children= 'Selected airbnb:', style={'display':'block','font-size':'14px'}), 
-                    html.H5(children='Price per night: €', style={'display':'block','font-size':'14px'})
+                    html.H5(children='Price per night: €', style={'display':'block','font-size':'14px'}),
+                    html.H5(children='Neighbourhood:', style={'display':'block','font-size':'14px'})
                     ], id = "info_selected"
                 ),
                 dcc.Graph(id=self.html_id, figure = self.update(None),style={'height': '70vh'})
