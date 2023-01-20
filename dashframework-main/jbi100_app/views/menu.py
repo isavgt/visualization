@@ -32,6 +32,7 @@ def generate_control_card(df):
                 id = 'select-price',
                 min = min(df.loc[:,'price']), 
                 max = max(df.loc[:,'price']),
+                tooltip={"placement": "bottom", "always_visible": True},
                 value=[min(df.loc[:,'price']), max(df.loc[:,'price'])],
                 ),
                 

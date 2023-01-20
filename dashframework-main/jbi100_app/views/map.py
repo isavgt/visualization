@@ -16,7 +16,8 @@ class Map(html.Div):
             children=[
                 html.H4("Airbnbs in New York City", style = {'color':'black','font-size':'30px'}),
                 dcc.Dropdown(['No color scale', 'Danger Score','Price'], 'No color scale', id='select-heatmap'),
-                dcc.Graph(id=self.html_id, figure=self.update(self.df, 'No color scale'), style={'height': '80vh'}),
+                dcc.Graph(id=self.html_id, figure=self.update(self.df, 'No color scale'), style={'height': '70vh'}),
+                html.H6("The danger score is calculated by the amount of arrests in the direct surroundings of the airbnb", style={'color':'black','font-size':'14px'}),
                 html.H6("Note: Danger score of the grey markers is unknown.", style={'color':'black','font-size':'14px'})
             ],
         )
@@ -43,7 +44,8 @@ class Map(html.Div):
             margin=dict(l=20, r=20, t=20, b=20), 
             autosize=True,
             hovermode='closest'
-        )         
+            
+        )    
      
         dcc.Graph(id=self.html_id, figure = self.fig)
         return self.fig
