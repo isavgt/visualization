@@ -9,7 +9,7 @@ from dash.dependencies import Input, Output
 
 if __name__ == '__main__':
     # Import data
-    df_airbnb  = pd.read_csv('airbnb_with_crimes.csv')
+    df_airbnb  = pd.read_csv('airbnb_with_crimes_cleaned.csv')
     # Create the two objects: map with airbnbs & plots
     map = Map("airbnbs", "longitude", "latitude", df_airbnb)
     plots = Plots("plots", df_airbnb)
@@ -48,15 +48,16 @@ if __name__ == '__main__':
     )
     def update_text(selected_data):
         # Get the specific values of the clicked airbnb
-        selected_id = selected_data['points'][0]['customdata']
-        selected_row = df_airbnb.loc[df_airbnb['id']==selected_id[0]]
-        selected_name = selected_row['name'].to_string(index=False)
-        selected_price = selected_row['price'].to_string(index=False)
-        selected_neighbourhood = selected_row['neighbourhood'].to_string(index=False)
-        # Return the text as a child of "info_selected (in plots)"
-        return [html.H5(children= f'Selected airbnb: {selected_name}', style={ 'display':'block','font-size':'14px'}), 
-                html.H5(children=f'Price per night: €{selected_price}', style={ 'display':'block','font-size':'14px'}),
-                html.H5(children=f'Neighbourhood: {selected_neighbourhood}', style={'display':'block','font-size':'14px'})]
+        if selected_data != None:
+            selected_index = selected_data['points'][0]['customdata']
+            selected_row = df_airbnb.loc[df_airbnb['index']==selected_index[0]]
+            selected_name = selected_row['name'].to_string(index=False)
+            selected_price = selected_row['price'].to_string(index=False)
+            selected_neighbourhood = selected_row['neighbourhood'].to_string(index=False)
+            # Return the text as a child of "info_selected (in plots)"
+            return [html.H5(children= f'Selected airbnb: {selected_name}', style={ 'display':'block','font-size':'14px'}), 
+                    html.H5(children=f'Price per night: €{selected_price}', style={ 'display':'block','font-size':'14px'}),
+                    html.H5(children=f'Neighbourhood: {selected_neighbourhood}', style={'display':'block','font-size':'14px'})]
 
     # Callback for plotting the plots for a clicked airbnb
     @app.callback(
@@ -67,8 +68,8 @@ if __name__ == '__main__':
         # Check if there is click data
         if selected_data != None:
             # Update the plot for the specific point
-            selected_id = selected_data['points'][0]['customdata']
-            fig = plots.update(selected_id)
+            selected_index = selected_data['points'][0]['customdata']
+            fig = plots.update(selected_index)
 
         else: 
             fig = plots.update(None)
@@ -98,5 +99,9 @@ if __name__ == '__main__':
         # Update the map according to the new dataframe & type of map 
         fig = map.update(df_selected_airbnbs, color_scale)
         return fig
+
+    df_selected_test = df_airbnb[(df_airbnb['index'] == 639199)]
+
+    print(df_selected_test)
 
     app.run_server(debug=False, dev_tools_ui=False)

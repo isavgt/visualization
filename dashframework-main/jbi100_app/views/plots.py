@@ -1,7 +1,7 @@
 from dash import dcc, html
 import plotly.graph_objects as go
 
-# 
+# This file enholds the plot on the right of the page. It shows a histogram of the price
 class Plots(html.Div):
     def __init__(self, name, df):
         self.html_id = name.lower().replace(" ", "-")
@@ -27,8 +27,11 @@ class Plots(html.Div):
     def update(self, clicked_id):
         # If an airbnb has been clicked, show histogram of prices of airbnbs in the same neighbourhood
         if clicked_id != None:
-            neighbourhood = self.df.loc[self.df['id']==clicked_id[0]]['neighbourhood'].to_string(index=False)
-            price = self.df.loc[self.df['id']==clicked_id[0]]['price'].values[0]
+            print('id', clicked_id[0])
+            print('0',self.df.loc[self.df['index']==clicked_id[0]]['price'])
+            print('1',len(self.df.loc[self.df['index']==clicked_id[0]]['price']))
+            neighbourhood = self.df.loc[self.df['index']==clicked_id[0]]['neighbourhood'].to_string(index=False)
+            price = self.df.loc[self.df['index']==clicked_id[0]]['price'].values[0]
             neighbourhood_data = self.df.loc[self.df['neighbourhood']==neighbourhood]
             self.fig= go.Figure(data=[go.Histogram(x=neighbourhood_data['price'], marker_color='#3567AC')])
             self.fig.add_vline(x=price, line_dash = 'dash', line_color = '#FFAC1E')

@@ -1,6 +1,7 @@
 from dash import dcc, html
 from ..config import color_list1, color_list2
 
+## This file enholds the menu on the left: it contains the filters for the map and an explanation
 
 def generate_description_card():
     """
