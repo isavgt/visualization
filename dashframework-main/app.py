@@ -1,21 +1,16 @@
 from jbi100_app.main import app
 from jbi100_app.views.menu import make_menu_layout
-from jbi100_app.views.scatterplot import Scatterplot
 from jbi100_app.views.map import Map
 from jbi100_app.views.plots import Plots
 
-from dash import html, dcc
-import math
-import numpy as np
-import plotly.express as px
+from dash import html
 import pandas as pd
 from dash.dependencies import Input, Output
-import plotly.graph_objects as go
 
 if __name__ == '__main__':
     # Import data
     df_airbnb  = pd.read_csv('airbnb_with_crimes.csv')
-    # Create the two objects: map with airbnbs & plots (for now only price)
+    # Create the two objects: map with airbnbs & plots
     map = Map("airbnbs", "longitude", "latitude", df_airbnb)
     plots = Plots("plots", df_airbnb)
 
@@ -46,7 +41,7 @@ if __name__ == '__main__':
             ],
         )
 
-    # Callback for showing the clicked data (name & price) to user
+    # Callback for showing the information about the clicked airbnb to the user
     @app.callback(
         Output("info_selected", "children"), 
         Input(map.html_id, 'clickData')
@@ -79,6 +74,7 @@ if __name__ == '__main__':
             fig = plots.update(None)
         return fig
 
+    # Callback for updating the scattermapbox according to the filter values & the dropdown menu for selecting the type of map
     @app.callback(
         Output("airbnbs", "figure"), 
         Input("select-price", "value"),
@@ -86,9 +82,10 @@ if __name__ == '__main__':
         Input("select-accommodates", "value"),
         Input("select-roomtype", "value"), 
         Input("select-other-filters", "value"),
-        Input("select-heatmap","value")
+        Input("select-color_scale","value")
     )
-    def update_map(price_range, review_range, accommodate_range, room_type, other_filters,heatmap):
+    def update_map(price_range, review_range, accommodate_range, room_type, other_filters,color_scale):
+        # Update the dataframe of airbnbs after filtering for all attributes
         df_selected_airbnbs = df_airbnb[df_airbnb["price"].between(price_range[0], price_range[1])]
         df_selected_airbnbs = df_selected_airbnbs[df_selected_airbnbs["review_scores_value"].between(review_range[0], review_range[1])]
         df_selected_airbnbs = df_selected_airbnbs[df_selected_airbnbs["accommodates"].between(accommodate_range[0], accommodate_range[1])]
@@ -97,7 +94,9 @@ if __name__ == '__main__':
             df_selected_airbnbs = df_selected_airbnbs[df_selected_airbnbs["host_is_superhost"]==True]
         if 'Private Bathroom' in other_filters: 
             df_selected_airbnbs = df_selected_airbnbs[df_selected_airbnbs["Private/Shared"]=="Private"]
-        fig = map.update(df_selected_airbnbs, heatmap)
+        
+        # Update the map according to the new dataframe & type of map 
+        fig = map.update(df_selected_airbnbs, color_scale)
         return fig
 
     app.run_server(debug=False, dev_tools_ui=False)

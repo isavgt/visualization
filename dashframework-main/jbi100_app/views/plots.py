@@ -1,15 +1,16 @@
 from dash import dcc, html
 import plotly.graph_objects as go
 
-
+# 
 class Plots(html.Div):
     def __init__(self, name, df):
         self.html_id = name.lower().replace(" ", "-")
         self.df = df
 
-        # Equivalent to `html.Div([...])`
+        # Creates a graph when a plot has been created
         super().__init__(
             className="graph_card",
+            # This contains a title, information on the selected airbnb and a histogram with the prices in the area.
             children=[
                 html.H4("Prices in the same neighbourhood", style = {'color':'black','font-size':'25px'}),
                 html.Div(children=
@@ -24,21 +25,19 @@ class Plots(html.Div):
 
     #create figure
     def update(self, clicked_id):
+        # If an airbnb has been clicked, show histogram of prices of airbnbs in the same neighbourhood
         if clicked_id != None:
             neighbourhood = self.df.loc[self.df['id']==clicked_id[0]]['neighbourhood'].to_string(index=False)
-            print(self.df.loc[self.df['id']==clicked_id[0]]['price'])
             price = self.df.loc[self.df['id']==clicked_id[0]]['price'].values[0]
             neighbourhood_data = self.df.loc[self.df['neighbourhood']==neighbourhood]
             self.fig= go.Figure(data=[go.Histogram(x=neighbourhood_data['price'], marker_color='#3567AC')])
-            print(clicked_id)
-            print(type(price))
             self.fig.add_vline(x=price, line_dash = 'dash', line_color = '#FFAC1E')
             dcc.Graph(id=self.html_id, figure = self.fig)
-        
+        # If no airbnb has been clicked, show histogram of prices of all airbnbs
         else:
             self.fig = go.Figure(data=[go.Histogram(x=self.df['price'], marker_color='#3567AC')] )
 
-        # update axis titles
+        # Update axis titles
         self.fig.update_layout(
             xaxis_title='price per night',
             yaxis_title='frequency',

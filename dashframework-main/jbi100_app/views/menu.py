@@ -22,11 +22,12 @@ def generate_description_card():
 def generate_control_card(df):
     """
 
-    :return: A Div containing controls for graphs.
+    :return: A Div containing filters for the mapbox.
     """
     return html.Div(
         id="control-card",
         children=[
+            # Select price filter
             html.Label("Select price per night"),
             dcc.RangeSlider(
                 id = 'select-price',
@@ -37,6 +38,7 @@ def generate_control_card(df):
                 ),
                 
             html.Br(),
+            # Select review score
             html.Label("Select review score"),
             dcc.RangeSlider(
                 id="select-review-score",
@@ -45,6 +47,7 @@ def generate_control_card(df):
                 step = 1,
                 value = [1,5]),
             html.Br(),
+            # Select number of people
             html.Label("Select number of people"),
             dcc.RangeSlider(
                 id="select-accommodates",
@@ -54,6 +57,7 @@ def generate_control_card(df):
                 value = [min(df.loc[:,'accommodates']),max(df.loc[:,'accommodates'])],
             ),
             html.Br(), 
+            # Select the room type
             html.Label("Select the room type"),
             dcc.Dropdown(
                 id = "select-roomtype",
@@ -62,6 +66,7 @@ def generate_control_card(df):
                 multi = True,
             ), 
             html.Br(), 
+            # Select other filters (superhost/private bathroom)
             html.Label("Other filters"),
             dcc.Checklist(
                 id = "select-other-filters", 
