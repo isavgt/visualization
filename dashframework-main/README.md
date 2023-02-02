@@ -20,3 +20,4 @@ Then run app.py locally. You will get a http link, open this in your browser to 
 ## Resources
 
 * [Dash](https://dash.plot.ly/)
+* We used the framework provided by the course JBI100 to provide the basic structure of our code. Therefore, the code that provides the framework for the app is not ours. The link to this framework is given here: https://gitlab.tue.nl/JBI100/dashframework

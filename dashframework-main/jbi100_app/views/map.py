@@ -36,7 +36,7 @@ class Map(html.Div):
         # Create the mapbox without a color scale for extra attributes
         elif color_scale == 'No color scale':
             self.fig = go.Figure(px.scatter_mapbox(selected_df,color_discrete_sequence=["#3567AC"],lat="latitude",
-            hover_data={'latitude':False, 'longitude':False,'price':True,'review_scores_value':True,'neighbourhood':True, 'index': True},lon="longitude", custom_data=['index']))
+            hover_data={'latitude':False, 'longitude':False,'price':True,'review_scores_value':True,'neighbourhood':True},lon="longitude", custom_data=['index']))
 
         # Create the mapbox with markers indicating price
         elif color_scale == 'Price':
